@@ -1,25 +1,24 @@
 import React, { Component, ReactNode } from "react";
-import logo from "./logo.svg";
+import axios from 'axios'
 import "./App.css";
 
 class App extends Component {
+  state = {
+    title: "test",
+  };
+  componentDidMount(): void {
+    axios.get('http://localhost:8080/todos')
+    .then((res : any) => {
+      const todos = res.data
+      this.setState({ todos })
+      console.log(todos);
+      
+    })
+  }
   render(): ReactNode {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Hello there!
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        Hello !<h1>{this.state.title}</h1>
       </div>
     );
   }
