@@ -35,3 +35,5 @@ func init() {
 	// check the connection
 	err = client.Ping(context.TODO(), nil)
 }
+
+// GetAllTask get all the task route
