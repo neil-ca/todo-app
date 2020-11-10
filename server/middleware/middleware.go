@@ -37,3 +37,9 @@ func init() {
 }
 
 // GetAllTask get all the task route
+func GetAllTask(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	payload := getAllTask()
+	json.NewEnconder(w).Encode(payload)
+}
