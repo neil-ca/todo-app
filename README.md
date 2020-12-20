@@ -1,4 +1,5 @@
 ## TodoApp
+Endpoints exposed
 
 |  Endpoint   | Method |     Description     |
 | :---------: | :----: | :-----------------: |
