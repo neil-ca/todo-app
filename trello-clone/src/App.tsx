@@ -1,13 +1,11 @@
 import React from "react";
+import { AppContainer } from "./styles";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-       <div style={{ backgroundColor: "blue" }}>Hello</div>
+        <AppContainer>COLUMNS</AppContainer>
       </header>
     </div>
   );
