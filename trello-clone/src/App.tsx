@@ -17,32 +17,32 @@ type Action =
 const counterReducer = (state: State, action: Action) => {
   switch (action.type) {
     case "increment":
-      return { count: state.count + 1 };
+      return { count: state.count + 2 };
     case "decrement":
-      return { count: state.count - 1 };
+      return { count: state.count - 2 };
     default:
       throw new Error();
   }
 };
 function App() {
-  const [state, dispatch] = useReducer(counterReducer, { count: 0})
+  const [state, dispatch] = useReducer(counterReducer, { count: 0 });
   return (
     <>
-    <p>Count: {state.count}</p>
-    <button onClick={() => dispatch({ type: "decrement"})}>-</button>
-    <button onClick={() => dispatch({ type: "increment"})}>+</button>
-    <AppContainer>
-      <Column text="To Do">
-        <Card text="Generate backend" />
-      </Column>
-      <Column text="In Progress">
-        <Card text="Learn typescript" />
-      </Column>
-      <Column text="Done">
-        <Card text="Component defined" />
-      </Column>
-      <AddNewItem toggleButtonText="+ Add another list" onAdd={console.log} />
-    </AppContainer>
+      <p>Count: {state.count}</p>
+      <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+      <button onClick={() => dispatch({ type: "increment" })}>+</button>
+      <AppContainer>
+        <Column text="To Do">
+          <Card text="Generate backend" />
+        </Column>
+        <Column text="In Progress">
+          <Card text="Learn typescript" />
+        </Column>
+        <Column text="Done">
+          <Card text="Component defined" />
+        </Column>
+        <AddNewItem toggleButtonText="+ Add another list" onAdd={console.log} />
+      </AppContainer>
     </>
   );
 }
