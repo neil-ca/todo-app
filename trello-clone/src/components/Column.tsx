@@ -4,7 +4,7 @@ import { AddNewItem } from "./AddNewItem";
 
 interface ColumnProps {
   text: string;
-  children: any;
+  index: number;
 }
 
 export const Column = ({

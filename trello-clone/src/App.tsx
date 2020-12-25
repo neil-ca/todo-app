@@ -1,49 +1,39 @@
-import React, { useReducer } from "react";
-import { AppContainer } from "./styles";
-import { Card } from "./components/Card";
-import { Column } from "./components/Column";
+import React from "react";
+import { useAppState } from "./AppStateContext";
 import { AddNewItem } from "./components/AddNewItem";
+import { Column } from "./components/Column";
+import { AppContainer } from "./styles";
 
-interface State {
-  count: number;
-}
-type Action =
-  | {
-      type: "increment";
-    }
-  | {
-      type: "decrement";
-    };
-const counterReducer = (state: State, action: Action) => {
-  switch (action.type) {
-    case "increment":
-      return { count: state.count + 2 };
-    case "decrement":
-      return { count: state.count - 2 };
-    default:
-      throw new Error();
-  }
-};
+// interface State {
+//   count: number;
+// }
+// type Action =
+//   | {
+//       type: "increment";
+//     }
+//   | {
+//       type: "decrement";
+//     };
+// const counterReducer = (state: State, action: Action) => {
+//   switch (action.type) {
+//     case "increment":
+//       return { count: state.count + 2 };
+//     case "decrement":
+//       return { count: state.count - 2 };
+//     default:
+//       throw new Error();
+//   }
+// };
 function App() {
-  const [state, dispatch] = useReducer(counterReducer, { count: 0 });
+  // const [state, dispatch] = useReducer(counterReducer, { count: 0 });
+  const { state } = useAppState();
   return (
-    <>
-      <p>Count: {state.count}</p>
-      <button onClick={() => dispatch({ type: "decrement" })}>-</button>
-      <button onClick={() => dispatch({ type: "increment" })}>+</button>
-      <AppContainer>
-        <Column text="To Do">
-          <Card text="Generate backend" />
-        </Column>
-        <Column text="In Progress">
-          <Card text="Learn typescript" />
-        </Column>
-        <Column text="Done">
-          <Card text="Component defined" />
-        </Column>
-        <AddNewItem toggleButtonText="+ Add another list" onAdd={console.log} />
-      </AppContainer>
-    </>
+    <AppContainer>
+      {state.lists.map((list, i) => (
+        <Column text={list.text} key={list.id} index={i} />
+      ))}
+      <AddNewItem toggleButtonText="+ Add another list" onAdd={console.log} />
+    </AppContainer>
   );
 }
 
