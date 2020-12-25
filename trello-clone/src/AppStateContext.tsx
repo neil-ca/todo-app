@@ -15,6 +15,16 @@ export interface AppState {
 interface AppStateContextProps {
   state: AppState;
 }
+type Action =
+  | {
+      type: "ADD_LIST";
+      payload: string;
+    }
+  | {
+      type: "ADD_TASK";
+      payload: { text: string; taskId: string };
+    };
+
 const AppStateContext = createContext<AppStateContextProps>(
   {} as AppStateContextProps
 );
@@ -46,5 +56,23 @@ export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
   );
 };
 export const useAppState = () => {
-  return useContext(AppStateContext)
-}
+  return useContext(AppStateContext);
+};
+const appStateReducer = (state: AppState, action: Action): AppState => {
+  switch (action.type) {
+    case "ADD_LIST": {
+      // Reducer logic here
+      return {
+        ...state,
+      };
+    }
+    case "ADD_TASK": {
+      return {
+        ...state,
+      };
+    }
+
+    default:
+      return state;
+  }
+};
