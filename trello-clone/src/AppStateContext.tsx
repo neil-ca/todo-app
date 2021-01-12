@@ -1,29 +1,7 @@
-import React, { createContext, useReducer, useContext } from "react";
-import uuid from "uuid";
+import React, { createContext, useReducer, useContext, Dispatch } from "react";
+import { v1 as uuid} from "uuid";
 import { findItemIndexById } from "./utils/findItemIndexById";
 
-interface Task {
-  id: string;
-  text: string;
-}
-interface List {
-  id: string;
-  text: string;
-  tasks: Task[];
-}
-export interface AppState {
-  lists: List[];
-}
-// Provide the type for our context
-interface AppStateContextProps {
-  state: AppState;
-}
-
-// Define the AppStateContext
-// We pass an empty object that we'll cast to AppStateContextProps to createContext function
-const AppStateContext = createContext<AppStateContextProps>(
-  {} as AppStateContextProps
-);
 
 const appData: AppState = {
   lists: [
@@ -44,6 +22,31 @@ const appData: AppState = {
     },
   ],
 };
+
+interface Task {
+  id: string;
+  text: string;
+}
+interface List {
+  id: string;
+  text: string;
+  tasks: Task[];
+}
+export interface AppState {
+  lists: List[];
+}
+// Define the AppStateContext
+// We pass an empty object that we'll cast to AppStateContextProps to createContext function
+const AppStateContext = createContext<AppStateContextProps>(
+  {} as AppStateContextProps
+);
+
+// Provide the type for our context
+interface AppStateContextProps {
+  state: AppState;
+  dispatch: Dispatch<Action>
+}
+
 
 // Weĺl define actions and reducers necessary to create new cards and components
 type Action =

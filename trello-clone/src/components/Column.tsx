@@ -7,6 +7,7 @@ import { Card } from "./Card";
 interface ColumnProps {
   text: string;
   index: number;
+  id: string;
 }
 
 // We call useAppState to get the data. Then we get the column by index. This is
@@ -23,7 +24,7 @@ export const Column = ({ text, index, id }: ColumnProps) => {
       ))}
       <AddNewItem
         toggleButtonText="+ Add another card"
-        onAdd={(text) =>
+        onAdd={text =>
           dispatch({ type: "ADD_TASK", payload: { text, taskId: id } })
         }
         dark
