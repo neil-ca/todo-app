@@ -9,6 +9,9 @@ interface ColumnProps {
   index: number;
 }
 
+// We call useAppState to get the data. Then we get the column by index. This is
+// why we are passing it as a prop to the Column component. Then we iterate over
+// the cards and render the Card components 
 export const Column = ({ text, index }: ColumnProps) => {
   const { state } = useAppState();
   return (

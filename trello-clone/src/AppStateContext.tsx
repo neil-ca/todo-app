@@ -12,19 +12,13 @@ interface List {
 export interface AppState {
   lists: List[];
 }
+// Provide the type for our context
 interface AppStateContextProps {
   state: AppState;
 }
-type Action =
-  | {
-      type: "ADD_LIST";
-      payload: string;
-    }
-  | {
-      type: "ADD_TASK";
-      payload: { text: string; taskId: string };
-    };
 
+// Define the AppStateContext
+// We pass an empty object that we'll cast to AppStateContextProps to createContext function
 const AppStateContext = createContext<AppStateContextProps>(
   {} as AppStateContextProps
 );
@@ -48,31 +42,53 @@ const appData: AppState = {
     },
   ],
 };
+
+
+// Weĺl define actions and reducers necessary to create new cards and components
+type Action =
+  // The technique we are using here is called discrimination union. we've passed two
+  // interfaces separated by a |. It means that now can resolve to one of the forms that we've passed
+  | {
+      type: "ADD_LIST";
+      payload: string;
+    }
+  | {
+      type: "ADD_TASK";
+      payload: { text: string; taskId: string };
+    };
+/*  if (action.type === "ADD_LIST") {
+      return typeof action.payload -> will return "string"
+    }
+    */
+const appStateReducer = (state: AppState, action: Action): AppState => {
+  switch (action.type) {
+    case "ADD_LIST": {
+      // Reducer logic here
+      const visibilityExample = "Too visible";
+      return {
+        ...state,
+      };
+    } // we use curly brackets to define the block scope for our case statements
+    // without those, our constants would be visible across the whole switch block
+    case "ADD_TASK":
+      const visibilityExample = "Too visible";
+      return {
+        ...state,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
+  const [state, dispatch] = useReducer(appStateReducer, appData);
   return (
-    <AppStateContext.Provider value={{ state: appData }}>
+    <AppStateContext.Provider value={{ state, dispatch }}>
       {children}
     </AppStateContext.Provider>
   );
 };
 export const useAppState = () => {
   return useContext(AppStateContext);
-};
-const appStateReducer = (state: AppState, action: Action): AppState => {
-  switch (action.type) {
-    case "ADD_LIST": {
-      // Reducer logic here
-      return {
-        ...state,
-      };
-    }
-    case "ADD_TASK": {
-      return {
-        ...state,
-      };
-    }
-
-    default:
-      return state;
-  }
 };
