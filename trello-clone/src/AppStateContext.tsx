@@ -1,4 +1,5 @@
 import React, { createContext, useReducer, useContext } from "react";
+import uuid from "uuid";
 
 interface Task {
   id: string;
@@ -43,7 +44,6 @@ const appData: AppState = {
   ],
 };
 
-
 // Weĺl define actions and reducers necessary to create new cards and components
 type Action =
   // The technique we are using here is called discrimination union. we've passed two
@@ -63,10 +63,14 @@ type Action =
 const appStateReducer = (state: AppState, action: Action): AppState => {
   switch (action.type) {
     case "ADD_LIST": {
-      // Reducer logic here
-      const visibilityExample = "Too visible";
       return {
+        // Reducer needs to return a new instance of an object. we'll set lists field
+        // to be a new array with the old lists plus new item
         ...state,
+        lists: [
+          ...state.lists,
+          { id: uuid(), text: action.payload, tasks: [] },
+        ],
       };
     } // we use curly brackets to define the block scope for our case statements
     // without those, our constants would be visible across the whole switch block
