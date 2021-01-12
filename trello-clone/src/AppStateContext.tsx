@@ -1,5 +1,6 @@
 import React, { createContext, useReducer, useContext } from "react";
 import uuid from "uuid";
+import { findItemIndexById } from "./utils/findItemIndexById";
 
 interface Task {
   id: string;
@@ -75,11 +76,18 @@ const appStateReducer = (state: AppState, action: Action): AppState => {
     } // we use curly brackets to define the block scope for our case statements
     // without those, our constants would be visible across the whole switch block
     case "ADD_TASK":
-      const visibilityExample = "Too visible";
+      const targetLaneIndex = findItemIndexById(
+        state.lists,
+        action.payload.taskId
+      );
+      state.lists[targetLaneIndex].tasks.push({
+        id: uuid(),
+        text: action.payload.text,
+      });
       return {
         ...state,
       };
-
+      
     default:
       return state;
   }
