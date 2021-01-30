@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useContext, Dispatch } from "react";
-import { v1 as uuid} from "uuid";
+import { v1 as uuid } from "uuid";
 import { findItemIndexById } from "./utils/findItemIndexById";
 
 
@@ -53,13 +53,22 @@ type Action =
   // The technique we are using here is called discrimination union. we've passed two
   // interfaces separated by a |. It means that now can resolve to one of the forms that we've passed
   | {
-      type: "ADD_LIST";
-      payload: string;
-    }
+    type: "ADD_LIST";
+    payload: string;
+  }
   | {
-      type: "ADD_TASK";
-      payload: { text: string; taskId: string };
-    };
+    type: "ADD_TASK";
+    payload: { text: string; taskId: string };
+  }
+  | {
+    // When we start dragging the column - we remember the original position of it and then pass
+    // it as dragIndex. When we hover other columns we take their positions and use them as a hoverIndex
+    type: "MOVIE_LIST"
+    payload: {
+      dragIndex: number
+      hoverIndex: number
+    }
+  }
 /*  if (action.type === "ADD_LIST") {
       return typeof action.payload -> will return "string"
     }
@@ -90,7 +99,13 @@ const appStateReducer = (state: AppState, action: Action): AppState => {
       return {
         ...state,
       };
-      
+
+    case "MOVIE_LIST": {
+      const { dragIndex, hoverIndex } = action.payload
+      state.lists = moveItem(state.lists, dragIndex, hoverIndex)
+      return { ...state }
+    }
+
     default:
       return state;
   }
