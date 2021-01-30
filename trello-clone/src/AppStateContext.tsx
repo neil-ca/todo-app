@@ -1,6 +1,7 @@
 import React, { createContext, useReducer, useContext, Dispatch } from "react";
 import { v1 as uuid } from "uuid";
 import { findItemIndexById } from "./utils/findItemIndexById";
+import { moveItem } from "./moveItem";
 
 
 const appData: AppState = {
