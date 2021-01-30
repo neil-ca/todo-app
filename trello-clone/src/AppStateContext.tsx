@@ -2,6 +2,7 @@ import React, { createContext, useReducer, useContext, Dispatch } from "react";
 import { v1 as uuid } from "uuid";
 import { findItemIndexById } from "./utils/findItemIndexById";
 import { moveItem } from "./moveItem";
+import { DragItem } from "./DragItem";
 
 
 const appData: AppState = {
@@ -69,6 +70,16 @@ type Action =
       dragIndex: number
       hoverIndex: number
     }
+  }
+  | {
+    /* Unfortunately, you can only access currently dragged item data from react-dnd hooks callbacks.
+    It's not enought for us. For example, when we drag the column react-dnd will create a drag preview
+    that we'll move around with our cursor. This drag preview will lock like the component that we started
+    to drag. We need hide the original component for that look like move the item
+    We need to know the type, to know if it's a card or a column as well as to know the id of this particular item. 
+    */ 
+    type: "SET_DRAGGED_ITEM"
+    payload: DragItem | undefined
   }
 /*  if (action.type === "ADD_LIST") {
       return typeof action.payload -> will return "string"
