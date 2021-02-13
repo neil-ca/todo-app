@@ -10,5 +10,6 @@ export type ColumnDragItem = {
     text: string
     type: "COLUMN"
 }
+// TODO -> Add a CardDragItem
 
 export type DragItem = ColumnDragItem

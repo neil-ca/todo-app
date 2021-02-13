@@ -1,4 +1,3 @@
-import React from "react";
 import { CardContainer } from "../../src/styles";
 
 interface CardProps {

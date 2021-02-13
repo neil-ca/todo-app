@@ -1,4 +1,3 @@
-import React from "react";
 import { useAppState } from "./AppStateContext";
 import { AddNewItem } from "./components/AddNewItem";
 import { Column } from "./components/Column";

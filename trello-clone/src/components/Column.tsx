@@ -1,8 +1,10 @@
-import React from "react";
 import { ColumnContainer, ColumnTitle } from "../../src/styles";
 import { AddNewItem } from "./AddNewItem";
 import { useAppState } from "../AppStateContext";
 import { Card } from "./Card";
+import { useItemDrag } from "../useItemDrag";
+import { useRef } from "react";
+import { useDrop } from "react-dnd";
 
 interface ColumnProps {
   text: string;
@@ -15,9 +17,13 @@ interface ColumnProps {
 // the cards and render the Card components
 export const Column = ({ text, index, id }: ColumnProps) => {
   const { state, dispatch } = useAppState();
+  const ref = useRef<HTMLDivElement>(null)
+
+  const { drag } = useItemDrag({ type: "COLUMN", id, index, text })
+  drag(ref)
 
   return (
-    <ColumnContainer>
+    <ColumnContainer ref={ref}>
       <ColumnTitle>{text} </ColumnTitle>
       {state.lists[index].tasks.map((task, i) => (
         <Card text={task.text} key={task.id} index={i} />

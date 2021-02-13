@@ -39,9 +39,7 @@ export interface AppState {
 }
 // Define the AppStateContext
 // We pass an empty object that we'll cast to AppStateContextProps to createContext function
-const AppStateContext = createContext<AppStateContextProps>(
-  {} as AppStateContextProps
-);
+const AppStateContext = createContext<AppStateContextProps>({} as AppStateContextProps);
 
 // Provide the type for our context
 interface AppStateContextProps {
@@ -50,7 +48,7 @@ interface AppStateContextProps {
 }
 
 
-// Weĺl define actions and reducers necessary to create new cards and components
+// We'll define actions and reducers necessary to create new cards and components
 type Action =
   // The technique we are using here is called discrimination union. we've passed two
   // interfaces separated by a |. It means that now can resolve to one of the forms that we've passed
@@ -65,19 +63,19 @@ type Action =
   | {
     // When we start dragging the column - we remember the original position of it and then pass
     // it as dragIndex. When we hover other columns we take their positions and use them as a hoverIndex
-    type: "MOVIE_LIST"
+    type: "MOVE_LIST"
     payload: {
       dragIndex: number
       hoverIndex: number
     }
   }
+  /* Unfortunately, you can only access currently dragged item data from react-dnd hooks callbacks.
+  It's not enought for us. For example, when we drag the column react-dnd will create a drag preview
+  that we'll move around with our cursor. This drag preview will lock like the component that we started
+  to drag. We need hide the original component for that look like move the item
+  We need to know the type, to know if it's a card or a column as well as to know the id of this particular item. 
+  */
   | {
-    /* Unfortunately, you can only access currently dragged item data from react-dnd hooks callbacks.
-    It's not enought for us. For example, when we drag the column react-dnd will create a drag preview
-    that we'll move around with our cursor. This drag preview will lock like the component that we started
-    to drag. We need hide the original component for that look like move the item
-    We need to know the type, to know if it's a card or a column as well as to know the id of this particular item. 
-    */ 
     type: "SET_DRAGGED_ITEM"
     payload: DragItem | undefined
   }
@@ -108,15 +106,16 @@ const appStateReducer = (state: AppState, action: Action): AppState => {
         id: uuid(),
         text: action.payload.text,
       });
-      return {
-        ...state,
-      };
+      return { ...state };
 
-    case "MOVIE_LIST": {
+    case "MOVE_LIST": {
       const { dragIndex, hoverIndex } = action.payload
       state.lists = moveItem(state.lists, dragIndex, hoverIndex)
       return { ...state }
     }
+
+    case "SET_DRAGGED_ITEM": 
+      return { ...state, draggedItem: action.payload }
 
     default:
       return state;
